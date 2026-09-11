@@ -1,0 +1,47 @@
+[2026-09-11T17:04:34.441+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2026-09-11T17:04:34.472+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: stock_market_pipeline.fetch_and_store_stock_data scheduled__2026-09-11T16:00:00+00:00 [queued]>
+[2026-09-11T17:04:34.479+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: stock_market_pipeline.fetch_and_store_stock_data scheduled__2026-09-11T16:00:00+00:00 [queued]>
+[2026-09-11T17:04:34.481+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 3
+[2026-09-11T17:04:34.493+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): fetch_and_store_stock_data> on 2026-09-11 16:00:00+00:00
+[2026-09-11T17:04:34.499+0000] {standard_task_runner.py:64} INFO - Started process 245 to run task
+[2026-09-11T17:04:34.501+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'stock_market_pipeline', 'fetch_and_store_stock_data', 'scheduled__2026-09-11T16:00:00+00:00', '--job-id', '2', '--raw', '--subdir', 'DAGS_FOLDER/stock_pipeline_dag.py', '--cfg-path', '/tmp/tmp04bqu8n9']
+[2026-09-11T17:04:34.504+0000] {standard_task_runner.py:91} INFO - Job 2: Subtask fetch_and_store_stock_data
+[2026-09-11T17:04:34.555+0000] {task_command.py:426} INFO - Running <TaskInstance: stock_market_pipeline.fetch_and_store_stock_data scheduled__2026-09-11T16:00:00+00:00 [running]> on host 259307d1a7e4
+[2026-09-11T17:04:34.763+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='8byte-assignment' AIRFLOW_CTX_DAG_ID='stock_market_pipeline' AIRFLOW_CTX_TASK_ID='fetch_and_store_stock_data' AIRFLOW_CTX_EXECUTION_DATE='2026-09-11T16:00:00+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='scheduled__2026-09-11T16:00:00+00:00'
+[2026-09-11T17:04:34.766+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2026-09-11T17:04:34.786+0000] {fetch_stock_data.py:273} INFO - === Processing symbol: IBM ===
+[2026-09-11T17:04:34.788+0000] {fetch_stock_data.py:67} ERROR - ALPHA_VANTAGE_API_KEY is not set. Cannot fetch IBM.
+[2026-09-11T17:04:34.789+0000] {fetch_stock_data.py:273} INFO - === Processing symbol: AAPL ===
+[2026-09-11T17:04:34.790+0000] {fetch_stock_data.py:67} ERROR - ALPHA_VANTAGE_API_KEY is not set. Cannot fetch AAPL.
+[2026-09-11T17:04:34.791+0000] {fetch_stock_data.py:273} INFO - === Processing symbol: MSFT ===
+[2026-09-11T17:04:34.792+0000] {fetch_stock_data.py:67} ERROR - ALPHA_VANTAGE_API_KEY is not set. Cannot fetch MSFT.
+[2026-09-11T17:04:34.793+0000] {fetch_stock_data.py:294} INFO - Pipeline run complete. Success: [] | Failed: ['IBM', 'AAPL', 'MSFT'] | Rows written: 0
+[2026-09-11T17:04:34.795+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2026-09-11T17:04:34.796+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 235, in execute
+    return_value = self.execute_callable()
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/airflow/.local/lib/python3.11/site-packages/airflow/operators/python.py", line 252, in execute_callable
+    return self.python_callable(*self.op_args, **self.op_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/airflow/dags/stock_pipeline_dag.py", line 48, in _run_pipeline_task
+    result = run_pipeline()
+             ^^^^^^^^^^^^^^
+  File "/opt/airflow/scripts/fetch_stock_data.py", line 300, in run_pipeline
+    raise RuntimeError(
+RuntimeError: Pipeline failed for ALL symbols: ['IBM', 'AAPL', 'MSFT']. Check logs above.
+[2026-09-11T17:04:34.817+0000] {taskinstance.py:1206} INFO - Marking task as UP_FOR_RETRY. dag_id=stock_market_pipeline, task_id=fetch_and_store_stock_data, run_id=scheduled__2026-09-11T16:00:00+00:00, execution_date=20260911T160000, start_date=20260911T170434, end_date=20260911T170434
+[2026-09-11T17:04:34.827+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 2 for task fetch_and_store_stock_data (Pipeline failed for ALL symbols: ['IBM', 'AAPL', 'MSFT']. Check logs above.; 245)
+[2026-09-11T17:04:34.837+0000] {local_task_job_runner.py:243} INFO - Task exited with return code 1
+[2026-09-11T17:04:34.854+0000] {taskinstance.py:3503} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2026-09-11T17:04:34.858+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
